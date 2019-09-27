@@ -1,12 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+<head>
+   <meta charset="UTF-8">
+   <title>{% block title %}Welcome!{% endblock %}</title>
+   {% block stylesheets %}
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+   <link href="{{ asset('asset/css/style.css') }}" rel="stylesheet" />
+   {% endblock %}
+</head>
+
+<body>
+
+   <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
+      <div class="container">
+
+         <ul class="nav justify-content-end main-nav">
+            <li class="nav-item">
+               <a class="nav-link active" href="{{ path('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{ path('app_login') }}">Sign in</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Disabled</a>
+            </li>
+         </ul>
+
+
+         {# <a class="navbar-brand" href="#"></a>
+         <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"></button>
+         <div class="collapse navbar-collapse text-right" id="navcol-1">
+            <a class="flex-sm-fill text-sm-center nav-link " href="{{ path('home') }}">Home</a>
+
+            {% if app.user %}
+            <a class="flex-sm-fill text-sm-center nav-link" href="{{ path('administration') }}">Administration</a>
+            <a class="btn btn-primary ml-auto" role="button" href="{{ path('app_logout') }}">Deconnexion</a>
+            {% else %}
+            <a class="flex-sm-fill text-sm-center nav-link " href="{{ path('app_login') }}">Sign in</a>
+            {% endif %} #}
+         </div>
+      </div>
+   </nav>
+   {% block body %}{% endblock %}
+   <footer class="footer bg-light">
+      <div class="container">
+         <div class="row">
+
+         </div>
+      </div>
+      </div>
+   </footer>
+   {% block javascripts %}
+   <script src="{{ asset('asset/js/app.js') }}"></script>
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+   {% endblock %}
+</body>
+
 </html>
