@@ -21,6 +21,12 @@ class Asset
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +40,18 @@ class Asset
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getTrickId(): ?Trick
+    {
+        return $this->trick_id;
+    }
+
+    public function setTrickId(?Trick $trick_id): self
+    {
+        $this->trick_id = $trick_id;
 
         return $this;
     }

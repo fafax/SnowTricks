@@ -41,6 +41,11 @@ class Trick
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
+     */
+    private $group_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class Trick
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getGroupId(): ?Group
+    {
+        return $this->group_id;
+    }
+
+    public function setGroupId(?Group $group_id): self
+    {
+        $this->group_id = $group_id;
 
         return $this;
     }
