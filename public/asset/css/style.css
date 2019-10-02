@@ -1,3 +1,37 @@
 .main-nav{
    width: 100%;
 }
+
+.img-header{
+   height: 95vh;
+   width: 100%;
+   background-image: url("../img/montagne.jpg");
+   background-repeat:no-repeat;
+   margin-bottom: 30px;
+}
+
+a:hover{
+   text-decoration: none;
+}
+
+header h1, header p{
+   color:white;
+}
+
+.arrow-down{
+   position: absolute;
+   bottom: 50px;
+   right: 50px;
+   
+}
+
+.arrow-up{
+   position: absolute;
+   top: 195vh;
+   right: 50px;
+   
+}
+
+.page-tricks{
+   height: 98vh;
+}
