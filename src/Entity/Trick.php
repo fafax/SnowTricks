@@ -42,9 +42,9 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groups")
      */
-    private $group_id;
+    private $groups_id;
 
     public function getId(): ?int
     {
@@ -116,9 +116,9 @@ class Trick
         return $this->group_id;
     }
 
-    public function setGroupId(?Group $group_id): self
+    public function setGroupId(?Groups $groups_id): self
     {
-        $this->group_id = $group_id;
+        $this->groups_id = $groups_id;
 
         return $this;
     }
