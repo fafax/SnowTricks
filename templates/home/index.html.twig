@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{controller_name}}{% endblock %}
 
 {% block body %}
 <header class="img-header" >
@@ -19,14 +19,25 @@
 <!-- Page Content -->
 <div class="container page-tricks">
    <div class="row" id="tricks">
-      <div class="col-md-4 mb-5">
-         <div class="card h-100">
-            <img class="card-img-top" src="http://placehold.it/300x200" alt="">
-            <div class="card-body">
-               <a href=""><h4 class="card-title">Card title</h4></a> 
+      {% for trick in tricks %}
+         <div class="col-md-3 mb-5">
+            <div class="card h-100">
+               <img class="card-img-top" src="http://placehold.it/300x200" alt="">
+               <div class="card-body">
+                  <a href="{{ path('detail_trick', {slug: trick.slug, id: trick.id}) }}">
+                     <h6 class="card-title">{{ trick.name }}</h6>
+                  </a>
+                  <a href="">
+                     <i class="fas fa-pencil-alt"></i>
+                  </a>
+                  <a href="">
+                     <i class="fas fa-trash-alt"></i>
+                  </a>
+               </div>
             </div>
          </div>
-      </div>
+      {% endfor %}
+      
    </div>
    <!-- /.row -->
 </div>

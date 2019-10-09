@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{controller_name}}{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+   <div class="row mb-5">
+      <div class="col-12">
+         <h2 style="background-image: url('http://placehold.it/230x170');">{{ trick.name}}</h2>
+      </div>
+   </div>
+   <div class="row">
+      
+   </div>
+   <div class="row mb-3">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo in quia obcaecati architecto, voluptatem velit. Quisquam expedita harum provident. Tempore minus et in. Cum iusto eius similique possimus laudantium dolore. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat maiores assumenda aut eaque enim vitae non impedit cum delectus atque iure, perferendis esse quo nesciunt. Omnis reiciendis quos deleniti. Sit!
+      Tenetur, provident unde maiores accusamus facilis reiciendis quod eligendi illo magni laborum ab reprehenderit animi recusandae expedita odit sapiente voluptate assumenda repellat facere vero neque. Doloribus ipsam voluptas vitae eos.
+      Eius dolorem aspernatur similique, ipsum iste autem eveniet ullam dicta, ratione, placeat maiores temporibus corrupti non reprehenderit unde culpa architecto a! Ut obcaecati vitae corrupti maiores ratione amet rem doloribus?</p>
+   </div>
+   <div class="row containt-info-trick">
+      <div class="container-info">
+         <p class="info-trick">test</p>
+         <p class="info-trick">{{trick.createDate | date("d/m/Y H:i")}}</p>
+         <p class="info-trick">test</p>
+      </div>
+
+   </div>
+
+   <div class="row">
+      {% if app.user %}
+         <h1>connecter</h1>
+      {% else %}
+         <div class="col-10">
+            <h4>Pour poster un commentaire vous devez vous connecter.</h4>
+         </div>
+         <div class="col-2">
+            <a href="{{ path("app_login")}}" class="btn btn-primary round">Connexion</a>
+         </div>
+      {% endif %}
+   </div>
+
+   
+
+   {% if comments | length <= 1 %}
+      <h6>Commentaire ({{comments | length}})</h6>
+   {% else %}
+      <h6>Commentaires ({{comments | length}})</h6>
+   {%endif%}
+   <hr>
+   {% for comment in comments %}
+      <div class="row comment-post">
+         <div>
+            <p class="info-comment">  {{comment.createDate|date("d-m-Y H:i")}}</p>
+            <p>{{comment.comment}} </p>
+         </div>
+      </div>
+   {% endfor %}
+   
+   
+</div>
+
+
+{% endblock %}
