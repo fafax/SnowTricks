@@ -26,17 +26,18 @@ class Comment
      */
     private $createDate;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $trick_id;
+    private $trick;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -67,26 +68,28 @@ class Comment
         return $this;
     }
 
-    public function getUserId(): ?User
+
+
+    public function getTrick(): ?Trick
     {
-        return $this->user_id;
+        return $this->trick;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->user_id = $user_id;
+        $this->trick = $trick;
 
         return $this;
     }
 
-    public function getTrickId(): ?Trick
+    public function getUser(): ?User
     {
-        return $this->trick_id;
+        return $this->user;
     }
 
-    public function setTrickId(?Trick $trick_id): self
+    public function setUser(?User $user): self
     {
-        $this->trick_id = $trick_id;
+        $this->user = $user;
 
         return $this;
     }
