@@ -50,7 +50,6 @@ header h1, header p{
 }
 
 
-
 .info-trick, .round{
    display: inline-block;
    padding: 5px 20px;
@@ -66,5 +65,18 @@ header h1, header p{
 }
 .container-info{
    margin: 0 auto;
+}
+
+.main-img-detail{
+height: 40vh;
+text-align: center
+}
+
+.main-img-detail h2{
+   height: 100%;
+   width: 100%;
+   background-repeat: no-repeat;
+   background-size: cover;
+   line-height: 40vh;
 }
 
