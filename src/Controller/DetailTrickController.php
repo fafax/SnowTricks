@@ -20,8 +20,9 @@ class DetailTrickController extends AbstractController
    
       $comments = $trick->getComments();
 
-      foreach ($comments as $key => $value) {
-         dump($value);
+      foreach ($comments as $comment ) {
+         
+         dump($comment->getUser());
       }
          
       

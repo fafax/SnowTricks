@@ -58,6 +58,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+         $this->roles[] = 'ROLE_USER';
     }
 
     public function getId(): ?int

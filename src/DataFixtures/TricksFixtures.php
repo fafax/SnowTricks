@@ -24,7 +24,7 @@ class TricksFixtures extends Fixture
                ->setText('je suis le texte de la figure n° '.$i)
                ->setCreateDate(new \DateTime())
                ->setUpdateDate(null)
-               ->setGroupId($group);
+               ->setGroupsId($group);
             $manager->persist($trick);
         }
         $manager->flush();
