@@ -2,6 +2,16 @@
    width: 100%;
 }
 
+nav .container{
+   max-width: 100%;
+   margin-left: 40px;
+   margin-right: 40px;
+}
+.logo-snowtricks{
+   height: 40px;
+   width: auto;
+}
+
 .img-header{
    height: 95vh;
    width: 100%;
