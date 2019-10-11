@@ -2,34 +2,40 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Trick;
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Entity\Comment;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class DetailTrickController extends AbstractController
 {
-    /**
-     * @Route("/trick/{slug}/{id}", name="detail_trick")
-     * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
-     */
-    public function index(Trick $trick ,UserRepository $userRepo)
-    {
-   
+   /**
+    * @Route("/trick/{slug}/{id}", name="detail_trick")
+    * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
+    */
+   public function index(Trick $trick, Request $request, EntityManagerInterface $em)
+   {
+
       $comments = $trick->getComments();
 
-      foreach ($comments as $comment ) {
-         
-         dump($comment->getUser());
+      if ($request->request->has("comment")) {
+         $comment = new Comment();
+         $comment->setComment($request->request->get('comment'));
+         $comment->setCreateDate(new \DateTime());
+         $comment->setTrick($trick);
+         $comment->setUser($this->getUser());
+         $em->persist($comment);
+         $em->flush();
       }
-         
-      
-        return $this->render('detail_trick/index.html.twig', [
-            'controller_name' => 'Detail Trick',
-            'trick'=> $trick,
-            "comments" => $comments
-        ]);
-    }
+
+      return $this->render('detail_trick/index.html.twig', [
+         'controller_name' => 'Detail Trick',
+         'trick' => $trick,
+         "comments" => $comments
+      ]);
+   }
 }

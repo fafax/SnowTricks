@@ -80,3 +80,10 @@ text-align: center
    line-height: 40vh;
 }
 
+.form-comment{
+   width: 100%;
+}
+
+.form-comment div{
+  display: inline-block;
+}
