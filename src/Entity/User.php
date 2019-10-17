@@ -12,176 +12,174 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-   /**
-    * @ORM\Id()
-    * @ORM\GeneratedValue()
-    * @ORM\Column(type="integer")
-    */
-   private $id;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-   /**
-    * @ORM\Column(type="string", length=180, unique=true)
-    */
-   private $email;
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $email;
 
-   /**
-    * @ORM\Column(type="json")
-    */
-   private $roles = [];
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = ['ROLE_USER'];
 
-   /**
-    * @var string The hashed password
-    * @ORM\Column(type="string")
-    */
-   private $password;
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
-   /**
-    * @ORM\Column(type="string", length=250 , unique=true)
-    */
-   private $userName;
+    /**
+     * @ORM\Column(type="string", length=250 , unique=true)
+     */
+    private $userName;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatarFile;
 
-   /**
-    * @ORM\Column(type="string", length=255)
-    */
-   private $avatarFile;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
+     */
+    private $comments;
 
-   /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
-    */
-   private $comments;
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
-   public function __construct()
-   {
-      $this->comments = new ArrayCollection();
-   }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-   public function getId(): ?int
-   {
-      return $this->id;
-   }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-   public function getEmail(): ?string
-   {
-      return $this->email;
-   }
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
-   public function setEmail(string $email): self
-   {
-      $this->email = $email;
+        return $this;
+    }
 
-      return $this;
-   }
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->userName;
+    }
 
-   /**
-    * A visual identifier that represents this user.
-    *
-    * @see UserInterface
-    */
-   public function getUsername(): string
-   {
-      return (string) $this->userName;
-   }
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-   /**
-    * @see UserInterface
-    */
-   public function getRoles(): array
-   {
-      $roles = $this->roles;
-      // guarantee every user at least has ROLE_USER
-      $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
 
-      return array_unique($roles);
-   }
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
-   public function setRoles(array $roles): self
-   {
-      $this->roles = $roles;
+        return $this;
+    }
 
-      return $this;
-   }
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
 
-   /**
-    * @see UserInterface
-    */
-   public function getPassword(): string
-   {
-      return (string) $this->password;
-   }
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
-   public function setPassword(string $password): self
-   {
-      $this->password = $password;
+        return $this;
+    }
 
-      return $this;
-   }
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
 
-   /**
-    * @see UserInterface
-    */
-   public function getSalt()
-   {
-      // not needed when using the "bcrypt" algorithm in security.yaml
-   }
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 
-   /**
-    * @see UserInterface
-    */
-   public function eraseCredentials()
-   {
-      // If you store any temporary, sensitive data on the user, clear it here
-      // $this->plainPassword = null;
-   }
+    public function setUserName(string $userName): self
+    {
+        $this->userName = $userName;
 
-   public function setUserName(string $userName): self
-   {
-      $this->userName = $userName;
+        return $this;
+    }
 
-      return $this;
-   }
+    public function getAvatarFile(): ?string
+    {
+        return $this->avatarFile;
+    }
 
+    public function setAvatarFile(string $avatarFile): self
+    {
+        $this->avatarFile = $avatarFile;
 
-   public function getAvatarFile(): ?string
-   {
-      return $this->avatarFile;
-   }
+        return $this;
+    }
 
-   public function setAvatarFile(string $avatarFile): self
-   {
-      $this->avatarFile = $avatarFile;
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 
-      return $this;
-   }
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
 
-   /**
-    * @return Collection|Comment[]
-    */
-   public function getComments(): Collection
-   {
-      return $this->comments;
-   }
+        return $this;
+    }
 
-   public function addComment(Comment $comment): self
-   {
-      if (!$this->comments->contains($comment)) {
-         $this->comments[] = $comment;
-         $comment->setUser($this);
-      }
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
-      return $this;
-   }
-
-   public function removeComment(Comment $comment): self
-   {
-      if ($this->comments->contains($comment)) {
-         $this->comments->removeElement($comment);
-         // set the owning side to null (unless already changed)
-         if ($comment->getUser() === $this) {
-            $comment->setUser(null);
-         }
-      }
-
-      return $this;
-   }
+        return $this;
+    }
 }
