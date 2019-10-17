@@ -25,8 +25,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
-            $data = $form->get('avatarFile')->getData();
-            $upload->uploadAvatar($data, $user);
+            if ($form->get('avatarFile')->getData()) {
+                $data = $form->get('avatarFile')->getData();
+                $upload->uploadAvatar($data, $user);
+            }
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('home');
