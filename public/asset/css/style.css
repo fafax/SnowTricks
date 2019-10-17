@@ -59,7 +59,13 @@ header h1, header p{
    padding-right: 8px;
 }
 
+.info-trick{
+   background-color:gray;
+}
 
+.round{
+   background-color:#007bff;
+}
 .info-trick, .round{
    display: inline-block;
    padding: 5px 20px;
@@ -67,7 +73,6 @@ header h1, header p{
    min-width: 100px;
    border-radius: 50px;
    color:white;
-   background-color:#007bff;
 }
 
 .containt-info-trick{
@@ -96,4 +101,21 @@ text-align: center
 
 .form-comment div{
   display: inline-block;
+}
+
+.rounded-circle{
+   width: 100%;
+}
+
+.btn-submit-comment{
+   margin-left: 20px;
+}
+
+iframe{
+   width: 100%;
+    height: 76%;
+}
+
+video{
+   width: 100%;
 }
