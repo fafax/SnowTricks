@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191011094807 extends AbstractMigration
+final class Version20191017095032 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20191011094807 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE trick CHANGE groups_id_id groups_id_id INT DEFAULT NULL, CHANGE update_date update_date DATETIME DEFAULT NULL');
-        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64924A232CF ON user (user_name)');
+        $this->addSql('ALTER TABLE asset CHANGE trick_id_id trick_id_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE trick CHANGE group_id_id group_id_id INT DEFAULT NULL, CHANGE update_date update_date DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL, CHANGE avatar_file avatar_file VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +32,8 @@ final class Version20191011094807 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE trick CHANGE groups_id_id groups_id_id INT DEFAULT NULL, CHANGE update_date update_date DATETIME DEFAULT \'NULL\'');
-        $this->addSql('DROP INDEX UNIQ_8D93D64924A232CF ON user');
-        $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT NOT NULL COLLATE utf8mb4_bin');
+        $this->addSql('ALTER TABLE asset CHANGE trick_id_id trick_id_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE trick CHANGE group_id_id group_id_id INT DEFAULT NULL, CHANGE update_date update_date DATETIME DEFAULT \'NULL\'');
+        $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT NOT NULL COLLATE utf8mb4_bin, CHANGE avatar_file avatar_file VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci');
     }
 }

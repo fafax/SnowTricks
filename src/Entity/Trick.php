@@ -44,18 +44,24 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Groups")
-     */
-    private $groups_id;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Asset", mappedBy="trickId")
+     */
+    private $assets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="tricks")
+     */
+    private $groupId;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->assets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,18 +129,6 @@ class Trick
         return $this;
     }
 
-    public function getGroupsId(): ?Groups
-    {
-        return $this->groups_id;
-    }
-
-    public function setGroupsId(?Groups $groups_id): self
-    {
-        $this->groups_id = $groups_id;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Comment[]
      */
@@ -162,6 +156,49 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Asset[]
+     */
+    public function getAssets(): Collection
+    {
+        return $this->assets;
+    }
+
+    public function addAsset(Asset $asset): self
+    {
+        if (!$this->assets->contains($asset)) {
+            $this->assets[] = $asset;
+            $asset->setTrickId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAsset(Asset $asset): self
+    {
+        if ($this->assets->contains($asset)) {
+            $this->assets->removeElement($asset);
+            // set the owning side to null (unless already changed)
+            if ($asset->getTrickId() === $this) {
+                $asset->setTrickId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGroupId(): ?Groups
+    {
+        return $this->groupId;
+    }
+
+    public function setGroupId(?Groups $groupId): self
+    {
+        $this->groupId = $groupId;
 
         return $this;
     }

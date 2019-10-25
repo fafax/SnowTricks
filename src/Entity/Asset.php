@@ -22,10 +22,19 @@ class Asset
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="assets")
      */
-    private $trick_id;
+    private $trickId;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
     public function getId(): ?int
     {
@@ -46,13 +55,38 @@ class Asset
 
     public function getTrickId(): ?Trick
     {
-        return $this->trick_id;
+        return $this->trickId;
     }
 
-    public function setTrickId(?Trick $trick_id): self
+    public function setTrickId(?Trick $trickId): self
     {
-        $this->trick_id = $trick_id;
+        $this->trickId = $trickId;
 
         return $this;
     }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
 }
