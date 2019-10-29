@@ -20,6 +20,7 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('avatarFile', FileType::class, [
                 'required' => false,
+                'label' => 'Choississez votre fichier',
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

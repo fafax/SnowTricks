@@ -2,6 +2,16 @@
    width: 100%;
 }
 
+nav .container{
+   max-width: 100%;
+   margin-left: 40px;
+   margin-right: 40px;
+}
+.logo-snowtricks{
+   height: 40px;
+   width: auto;
+}
+
 .img-header{
    height: 95vh;
    width: 100%;
@@ -34,4 +44,79 @@ header h1, header p{
 
 .page-tricks{
    height: 98vh;
+}
+
+.col-md-3{
+   flex: 0 0 20% !important;
+}
+
+.card-body h6{
+   display: inline-block;
+   padding-right: 15px;
+}
+
+.card-body a{
+   padding-right: 8px;
+}
+
+.info-trick{
+   background-color:gray;
+}
+
+.round{
+   background-color:#007bff;
+}
+.info-trick, .round{
+   display: inline-block;
+   padding: 5px 20px;
+   margin-right: 20px;
+   min-width: 100px;
+   border-radius: 50px;
+   color:white;
+}
+
+.containt-info-trick{
+   text-align: center
+}
+.container-info{
+   margin: 0 auto;
+}
+
+.main-img-detail{
+height: 40vh;
+text-align: center
+}
+
+.main-img-detail h2{
+   height: 100%;
+   width: 100%;
+   background-repeat: no-repeat;
+   background-size: cover;
+   line-height: 40vh;
+   background-position: center;
+}
+
+.form-comment{
+   width: 100%;
+}
+
+.form-comment div{
+  display: inline-block;
+}
+
+.rounded-circle{
+   width: 100%;
+}
+
+.btn-submit-comment{
+   margin-left: 20px;
+}
+
+iframe{
+   width: 100%;
+    height: 76%;
+}
+
+video{
+   width: 100%;
 }
