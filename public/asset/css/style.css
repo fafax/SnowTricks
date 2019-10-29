@@ -93,6 +93,7 @@ text-align: center
    background-repeat: no-repeat;
    background-size: cover;
    line-height: 40vh;
+   background-position: center;
 }
 
 .form-comment{

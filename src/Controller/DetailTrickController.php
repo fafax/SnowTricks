@@ -21,6 +21,7 @@ class DetailTrickController extends AbstractController
 
         $comments = $trick->getComments();
         $assets = $trick->getAssets();
+        $mainAsset = null;
 
         if ($request->request->has("comment")) {
             $comment = new Comment();
@@ -32,11 +33,19 @@ class DetailTrickController extends AbstractController
             $em->flush();
         }
 
+        foreach ($assets as $key => $asset) {
+            if ($asset->getType() === "image") {
+                $mainAsset = $asset->getUrl();
+                break;
+            };
+        }
+
         return $this->render('detail_trick/index.html.twig', [
             'controller_name' => 'Detail Trick',
             'trick' => $trick,
             'comments' => $comments,
             'assets' => $assets,
+            'mainAsset' => $mainAsset,
         ]);
     }
 }

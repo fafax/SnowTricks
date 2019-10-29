@@ -10,7 +10,7 @@
    <div class="container">
       <div class="row mb-5">
          <div class="col-12 main-img-detail">
-            <h2 style="background-image: url('http://placehold.it/230x170');">{{ trick.name}}</h2>
+            <h2 style="background-image: url( {{mainAsset}});">{{ trick.name}}</h2>
          </div>
       </div>
       <div class="row">
@@ -33,14 +33,21 @@
       </div>
 
       <div class="row mt-5 mb-3">
-         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas, a nobis iure minus esse, eos pariatur, non alias tempore facere nam voluptates mollitia molestiae voluptate qui neque accusamus illo praesentium quam! Modi magni veritatis autem adipisci minima nobis, blanditiis odit voluptas. Nostrum dolore expedita nulla dignissimos unde molestiae ad, amet temporibus! Itaque repudiandae, ullam totam adipisci nesciunt sequi corporis dolores ab dicta numquam possimus consequuntur eos, quis praesentium asperiores beatae ex quasi a voluptates commodi autem aperiam odit! Nemo eligendi dicta harum? Placeat laudantium totam alias hic adipisci deserunt, in recusandae, praesentium nam nulla vitae cupiditate aspernatur, esse maxime est!</p>
+         <p>{{ trick.text }}</p>
       </div>
       <div class="row containt-info-trick mb-5 ">
 
          <div class="container-info">
-            <p class="info-trick">test</p>
-            <p class="info-trick">{{trick.createDate | date("d/m/Y H:i")}}</p>
-            <p class="info-trick">test</p>
+            <p class="info-trick">{{trick.groupId.name}}</p>
+            <p class="info-trick">Crée le
+               {{trick.createDate | date("d/m/Y H:i")}}</p>
+
+            {% if trick.updateDate %}
+               <p class="info-trick">Modifié le
+                  {{trick.updateDate | date("d/m/Y H:i")}}</p>
+
+
+            {% endif %}
          </div>
 
       </div>
