@@ -9,10 +9,11 @@ use App\services\MailService;
 
 use App\services\UploadImgService;
 
+use App\services\ActiveAccountService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -21,7 +22,7 @@ class UserController extends AbstractController
      * @Route("/user", name="user")
      */
 
-    public function index(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, UploadImgService $upload, MailService $email)
+    public function index(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, UploadImgService $upload, MailService $email,ActiveAccountService $activeToken)
 
     {
         $user = new User();
@@ -36,6 +37,8 @@ class UserController extends AbstractController
                 $data = $form->get('avatarFile')->getData();
                 $upload->uploadAvatar($data, $user);
             }
+            $user->setActive(false);
+            $activeToken->setUserToken($user);
             $content = $this->renderView('email/createCount.html.twig', [
                 "user" => $user,
             ]);
