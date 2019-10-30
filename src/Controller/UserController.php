@@ -4,11 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-
 use App\services\MailService;
-
 use App\services\UploadImgService;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +19,10 @@ class UserController extends AbstractController
      */
 
     public function index(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, UploadImgService $upload, MailService $email)
-
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getPassword());
@@ -47,7 +42,6 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
             'form' => $form->createView(),
         ]);
     }
