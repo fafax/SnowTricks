@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublier
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger"></div>
+            {% endif %}
+            <h2 class="text-center mb-5">Forgot Password</h2>
+            <div class="border border-dark p-5">
+                <label for="inputEmail" class="sr-only mb-3">userName</label>
+                <input type="text" name="ForgotUserName" id="inputUserName" class="form-control mb-3" placeholder="User Name" required autofocus>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="text-center">
+                    <button class="btn btn-primary round mt-3" type="submit">Ask for reset
+                    </button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
