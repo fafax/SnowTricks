@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Repository\AssetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ class DetailTrickController extends AbstractController
      * @Route("/trick/{slug}/{id}", name="detail_trick")
      * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
      */
-    public function index(Trick $trick, Request $request, EntityManagerInterface $em)
+    public function index(Trick $trick, Request $request, EntityManagerInterface $em, AssetRepository $assetRepo)
     {
 
         $comments = $trick->getComments();
@@ -33,12 +34,7 @@ class DetailTrickController extends AbstractController
             $em->flush();
         }
 
-        foreach ($assets as $key => $asset) {
-            if ($asset->getType() === "image") {
-                $mainAsset = $asset->getUrl();
-                break;
-            };
-        }
+        $mainAsset = $assetRepo->findOneBy(array('type' => 'image'))->getUrl();
 
         return $this->render('detail_trick/index.html.twig', [
             'controller_name' => 'Detail Trick',
