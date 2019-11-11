@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+   <div class="container">
+      <div class="jumbotron mt-5">
+         <h1 class="display-4">Il y a eu un problème avec votre validation de compte.</h1>
+         <p class="lead">Je vous invite s'il vous plaît à renouveler votre inscription.</p>
+         <a class="btn btn-primary btn-lg" href="{{ path('user') }}" role="button">M'inscrire</a>
+
+      </div>
+   </div>
+{% endblock %}
