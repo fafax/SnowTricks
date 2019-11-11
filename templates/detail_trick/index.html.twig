@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   {{controller_name}}
+{% endblock %}
+
+{% block body %}
+
+
+   <div class="container">
+      <div class="row mb-5">
+         <div class="col-12 main-img-detail">
+            <h2 style="background-image: url( {{mainAsset}});">{{ trick.name}}</h2>
+         </div>
+      </div>
+      <div class="row">
+         {% for asset in assets %}
+            <div class="col-2">
+               {% if asset.type == "image" %}
+                  <img class="img-fluid mb-4" src="{{ asset.url}}" alt="">
+               {% elseif asset.type == "youtube" %}
+                  <iframe src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+               {% else %}
+                  <video controls>
+                     <source src="{{ asset('uploads/assets/') ~ asset.url }}">
+
+                     Votre navigateur ne supporte pas la vidéo
+                  </video>
+
+               {% endif %}
+            </div>
+         {% endfor %}
+      </div>
+
+      <div class="row mt-5 mb-3">
+         <p>{{ trick.text }}</p>
+      </div>
+      <div class="row containt-info-trick mb-5 ">
+
+         <div class="container-info">
+            <p class="info-trick">{{trick.groupId.name}}</p>
+            <p class="info-trick">Crée le
+               {{trick.createDate | date("d/m/Y H:i")}}</p>
+
+            {% if trick.updateDate %}
+               <p class="info-trick">Modifié le
+                  {{trick.updateDate | date("d/m/Y H:i")}}</p>
+
+
+            {% endif %}
+         </div>
+
+      </div>
+
+      <div class="row">
+         {% if app.user %}
+            <form action="" method="post" class="form-comment">
+               <div class="col-10 form-group">
+                  <input type="text" name="comment" class="form-control" placeholder="Commenter...">
+               </div>
+               <div class="col-1">
+                  <button type="submit" class="btn btn-primary round btn-submit-comment">Envoyer</button>
+               </div>
+
+            </form>
+         {% else %}
+            <div class="col-10">
+               <h6>Pour poster un commentaire vous devez vous connecter.</h6>
+            </div>
+            <div class="col-2">
+               <a href="{{ path("app_login")}}" class="btn btn-primary round">Connexion</a>
+            </div>
+         {% endif %}
+      </div>
+
+
+      {% if comments | length <= 1 %}
+         <h6>Commentaire ({{comments | length}})</h6>
+      {% else %}
+         <h6>Commentaires ({{comments | length}})</h6>
+         {%endif%}
+         <hr>
+         {% for comment in comments %}
+            <div class="row comment-post">
+               <div class="col-1 pt-2">
+                  {% if comment.user.avatarFile %}
+                     <img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/') ~ comment.user.avatarFile }}" alt="">
+
+
+                  {% else %}
+                     <img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/no-avatar.png') }}" alt="">
+
+                  {% endif %}
+
+               </div>
+               <div class="col-11 border mb-3">
+
+                  <p class="info-comment">
+                     {{comment.createDate|date("d-m-Y H:i")}}
+                     {{comment.user.userName}}
+                  </p>
+
+                  <p>{{comment.comment}}
+                  </p>
+               </div>
+            </div>
+         {% endfor %}
+
+
+      </div>
+
+
+   {% endblock %}
