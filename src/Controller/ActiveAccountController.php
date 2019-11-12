@@ -14,25 +14,24 @@ class ActiveAccountController extends AbstractController
      */
     public function index(UserRepository $users, $token, EntityManagerInterface $em)
     {
-        $allUsers = $users->findAll();
+        $user = $users->findOneBy(array("token" => $token));
 
-        foreach ($allUsers as $user) {
-            if ($user->getToken() === $token) {
-                if ($user->getActive() === false) {
-                    $user->setActive(true);
-                    $em->persist($user);
-                    $em->flush();
-                    return $this->render('active_account/index.html.twig', [
-                        'controller_name' => 'ActiveAccountController',
-                    ]);
-                } else {
-                    return $this->render('active_account/already.html.twig', [
-                    ]);
-                }
+        if ($user != null) {
+            if ($user->getActive() === false) {
+                $user->setActive(true);
+                $em->persist($user);
+                $em->flush();
+                return $this->render('active_account/index.html.twig', [
+                    'controller_name' => 'ActiveAccountController',
+                ]);
+            } else {
+                return $this->render('active_account/already.html.twig', [
+                ]);
             }
         }
         return $this->render('active_account/error.html.twig', [
             'controller_name' => 'ActiveAccountController',
         ]);
+
     }
 }
