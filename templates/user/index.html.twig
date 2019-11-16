@@ -1,18 +1,31 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Hello UserController!
+{% block title %}Inscription
 {% endblock %}
 
 {% block body %}
    <div class="container">
-      {{ form_start(form) }}
+      <h2 class="text-center mb-5">Registration</h2>
 
-      {{ form_widget(form) }}
+      <div class="border border-dark p-5">
 
+         {{ form_start(form) }}
 
-      <button type="submit" class="btn btn-primary round">Enregistrer</button>
-      {{ form_end(form) }}
+         {{ form_widget(form) }}
+         <div class="text-center">
+            <div>
+               <a href="{{ path('app_login') }}">Already on account ?</a>
+
+            </div>
+            <button type="submit" class="btn btn-primary round mt-3">Enregistrer</button>
+
+         </div>
+
+         {{ form_end(form) }}
+
+      </div>
+
    </div>
 
 {% endblock %}
