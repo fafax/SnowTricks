@@ -17,7 +17,7 @@ class TricksFixtures extends Fixture
         $group->setName('pas de groupe');
         $manager->persist($group);
 
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < 200; ++$i) {
             $trick = new Trick();
             $trick->setName('figure n° ' . $i)
                 ->setSlug($slug->addSlug($trick->getName()))
