@@ -17,7 +17,7 @@ class ActiveAccountController extends AbstractController
         $user = $users->findOneBy(array("token" => $token));
 
         if ($user != null) {
-            if ($user->getActive() === false) {
+            if (!$user->getActive()) {
                 $user->setActive(true);
                 $em->persist($user);
                 $em->flush();
@@ -29,6 +29,7 @@ class ActiveAccountController extends AbstractController
                 ]);
             }
         }
+
         return $this->render('active_account/error.html.twig', [
             'controller_name' => 'ActiveAccountController',
         ]);
