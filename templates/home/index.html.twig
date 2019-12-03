@@ -21,13 +21,14 @@
 	<!-- Page Content -->
 	<div class="container page-tricks">
 		<div class="row" id="tricks">
-{% include("tricks.html.twig")%}
+			{% include("tricks.html.twig")%}
 		</div>
 		<!-- /.row -->
 	</div>
-<div class="text-center mt-5">
-   <a  class="btn btn-primary round" id="more" href=""> More tricks</a>
-</div>
+	<div class="text-center mt-5">
+		<a class="btn btn-primary round" id="more" href="">
+			More tricks</a>
+	</div>
 
 
 	<div class="arrow-container">
@@ -39,31 +40,33 @@
 	<!-- /.container -->
 {% endblock %}
 
-		{% block javascripts %}
-<script>
+{% block javascripts %}
+	<script>
 
-const lien = document.getElementById("more"); 
+		const lien = document.getElementById("more");
 
 let count = 15;
 
+let url = "{{ url }}";
+
+
 lien.addEventListener("click", moreTricks);
 
-function moreTricks (event){
-    fetch(`http://127.0.0.1:8000/${count}`).then(response => {
-      console.log(count)
-      count +=15;
-     return response.text()
-   }).then( body => {
-      const container = document.getElementById("tricks");
-      let doc = new DOMParser().parseFromString(body, 'text/html');
-      let tabElement = doc.body.childNodes;
-      tabElement.forEach(element => {
-         container.appendChild(element);
-      });
-   })
-   
-   event.preventDefault();
-}
+function moreTricks(event) {
 
-</script>
-		{% endblock %}
+fetch(url + count).then(response => {
+count += 15;
+return response.text()
+}).then(body => {
+const container = document.getElementById("tricks");
+let doc = new DOMParser().parseFromString(body, 'text/html');
+let tabElement = doc.body.childNodes;
+tabElement.forEach(element => {
+container.appendChild(element);
+});
+})
+
+event.preventDefault();
+}
+	</script>
+{% endblock %}
