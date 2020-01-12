@@ -9,11 +9,9 @@
 				{% if is_granted('ROLE_ADMIN') %}
 
 					<a href="{{ path('edit_detail_trick', {slug: trick.slug, id: trick.id}) }}">
-
-
 						<i class="fas fa-pencil-alt"></i>
 					</a>
-					<a href="">
+					<a href="{{ path('delete_trick', {id: trick.id}) }}" onclick="return confirm('voulez-vous supprimer ce trick ?');">
 						<i class="fas fa-trash-alt"></i>
 					</a>
 				{% endif %}

@@ -175,3 +175,11 @@ iframe{
 video{
    width: 100%;
 }
+
+.count-comment{
+    width: 100vw;
+}
+
+.hide{
+   display: none;
+}

@@ -10,14 +10,15 @@
 	<div class="container">
 		<div class="row mb-5">
 			<div class="col-12 main-img-detail">
-				<h2 style="background-image: url({{mainAsset}});">{{ trick.name}}</h2>
+				<h2 style="background-image: url({{asset('uploads/assets/') ~ mainAsset}});">{{ trick.name}}</h2>
 			</div>
 		</div>
 		<div class="row">
 			{% for asset in assets %}
 				<div class="col-2">
 					{% if asset.type == "image" %}
-						<img class="img-fluid mb-4" src="{{ asset.url}}" alt="">
+						<img class="img-fluid mb-4" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
+
 					{% elseif asset.type == "youtube" %}
 						<iframe src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					{% else %}
@@ -26,31 +27,50 @@
 
 							Votre navigateur ne supporte pas la vidéo
 						</video>
-
 					{% endif %}
+					<a href="{{ path('update_asset', {id: trick.id, asset:asset.id}) }}">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
+
+					<a href="{{ path('delete_asset', {id: trick.id, asset:asset.id}) }}" onclick="return confirm('voulez-vous supprimer cette asset?');">
+						<i class="fas fa-trash-alt"></i>
+					</a>
 				</div>
+
 			{% endfor %}
+
 		</div>
 
-		{# <div class="row mt-5 mb-3">
-													<p>{{ trick.text }}</p>
-												</div>
-												<div class="row containt-info-trick mb-5 ">
-										
-													<div class="container-info">
-														<p class="info-trick">{{trick.groupsId.name}}</p>
-														<p class="info-trick">Crée le
-															{{trick.createDate | date("d/m/Y H:i")}}</p>
-										
-														{% if trick.updateDate %}
-															<p class="info-trick">Modifié le
-																{{trick.updateDate | date("d/m/Y H:i")}}</p>
-										
-										
-														{% endif %}
-													</div>
-										
-												</div> #}
+		<div class="text-center">
+			<button type="button" class="btn btn-primary round mt-3" data-toggle="modal" data-target="#newAsset">
+				Ajouter asset
+			</button>
+		</div>
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="newAsset" tabindex="-1" role="dialog" aria-labelledby="newAssetTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">Gestion des assets</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						{{ form_start(formAsset) }}
+						{{ form_widget(formAsset) }}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+						<button type="submit" class="btn btn-primary">Enregistrer</button>
+					</div>
+					{{ form_end(formAsset) }}
+				</div>
+			</div>
+		</div>
+
 
 		{{ form_start(form) }}
 
@@ -58,16 +78,12 @@
 
 		{{ form_row(form.groupsId) }}
 
-
 		<div class="text-center">
-
 			<button type="submit" class="btn btn-primary round mt-3">Enregistrer</button>
-
 		</div>
 		{{ form_end(form) }}
 
 
 	</div>
-
 
 {% endblock %}

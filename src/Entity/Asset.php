@@ -36,6 +36,8 @@ class Asset
      */
     private $name;
 
+    private $file;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +82,17 @@ class Asset
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+        return $this;
     }
 
     public function setName(string $name): self

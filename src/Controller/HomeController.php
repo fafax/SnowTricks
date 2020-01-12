@@ -28,8 +28,8 @@ class HomeController extends AbstractController
      */
     public function more(int $page = 0, TrickRepository $trickRepo)
     {
-        $tricks = $trickRepo->findBy([], null, 15, $page);
 
+        $tricks = $trickRepo->findBy([], null, 15, $page);
         return $this->render('tricks.html.twig', [
             'controller_name' => 'Home',
             'tricks' => $tricks,

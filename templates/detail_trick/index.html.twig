@@ -26,7 +26,6 @@
 
 							Votre navigateur ne supporte pas la vidéo
 						</video>
-
 					{% endif %}
 				</div>
 			{% endfor %}
@@ -45,8 +44,6 @@
 				{% if trick.updateDate %}
 					<p class="info-trick">Modifié le
 						{{trick.updateDate | date("d/m/Y H:i")}}</p>
-
-
 				{% endif %}
 			</div>
 
@@ -74,40 +71,62 @@
 		</div>
 
 
-		{% if comments | length <= 1 %}
-			<h6>Commentaire ({{comments | length}})</h6>
-		{% else %}
-			<h6>Commentaires ({{comments | length}})</h6>
-			{%endif%}
-			<hr>
-			{% for comment in comments %}
-				<div class="row comment-post">
-					<div class="col-1 pt-2">
-						{% if comment.user.avatarFile %}
-							<img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/') ~ comment.user.avatarFile }}" alt="">
+		<div class="row" id="comments">
+			<div class=" mb-3 count-comment">
+				{% if count <= 1 %}
+					<h6>Commentaire ({{count}})</h6>
+				{% else %}
+					<h6>Commentaires ({{count}})</h6>
+				{% endif %}
 
+			</div>
 
-						{% else %}
-							<img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/no-avatar.png') }}" alt="">
-
-						{% endif %}
-
-					</div>
-					<div class="col-11 border mb-3">
-
-						<p class="info-comment">
-							{{comment.createDate|date("d-m-Y H:i")}}
-							{{comment.user.userName}}
-						</p>
-
-						<p>{{comment.comment}}
-						</p>
-					</div>
-				</div>
-			{% endfor %}
-
+			{% include("comments.html.twig")%}
 
 		</div>
 
 
-	{% endblock %}
+		<div class="text-center mt-5" id="containerMoreComment">
+			<a class="btn btn-primary round" id="moreComment" href="">
+				More comment</a>
+		</div>
+
+	</div>
+
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		const lien = document.getElementById("moreComment");
+
+let count = 5;
+
+let url = "{{ url }}";
+
+
+lien.addEventListener("click", moreComment);
+
+function moreComment(event) {
+
+if (10 + count >= {{ count }}) {
+document.getElementById("containerMoreComment").classList.add("hide")
+}
+
+
+fetch(url + "/" + count).then(response => {
+count += 5;
+return response.text()
+}).then(body => {
+const container = document.getElementById("comments");
+let doc = new DOMParser().parseFromString(body, 'text/html');
+let tabElement = doc.body.childNodes;
+tabElement.forEach(element => {
+container.appendChild(element);
+});
+})
+
+
+event.preventDefault();
+}
+	</script>
+{% endblock %}
