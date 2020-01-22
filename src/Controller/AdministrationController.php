@@ -50,6 +50,7 @@ class AdministrationController extends AbstractController
             } else {
                 $upload->uploadAsset($file, $trick, $type, $name);
             }
+            return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
 
         }
 
@@ -73,7 +74,10 @@ class AdministrationController extends AbstractController
      */
     public function update(Trick $trick, Request $request, Asset $asset, UploadImgService $upload, EntityManagerInterface $em)
     {
-        $asset = $asset;
+
+        if ($asset->getType === "youtube") {
+
+        }
         $formAsset = $this->createForm(AssetType::class, $asset);
         $formAsset->handleRequest($request);
 
@@ -89,14 +93,10 @@ class AdministrationController extends AbstractController
                 $asset->setUrl($url);
                 $em->merge($asset);
                 $em->flush();
-                return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
-
             } else {
                 $upload->updateAsset($asset, $file, $trick, $type, $name);
-
-                return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
-
             }
+            return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
 
         }
 
@@ -115,12 +115,10 @@ class AdministrationController extends AbstractController
      */
     public function deleteAsset(Asset $asset, Trick $trick, EntityManagerInterface $em)
     {
-
         $em->remove($asset);
         $em->flush();
 
         return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
-
     }
 
     /**
@@ -128,11 +126,9 @@ class AdministrationController extends AbstractController
      */
     public function deleteTrick(Trick $trick, EntityManagerInterface $em)
     {
-
         $em->remove($trick);
         $em->flush();
 
         return $this->redirectToRoute('home');
-
     }
 }

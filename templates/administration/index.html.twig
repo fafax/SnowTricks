@@ -17,13 +17,17 @@
 			{% for asset in assets %}
 				<div class="col-2">
 					{% if asset.type == "image" %}
-						<img class="img-fluid mb-4" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
+						<img class="img-fluid mb-4 media-detail" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
+
 
 					{% elseif asset.type == "youtube" %}
-						<iframe src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<iframe class="media-detail" src="{{asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 					{% else %}
-						<video controls>
-							<source src="{{ asset('uploads/assets/') ~ asset.url }}">
+						<video class="media-detail" controls>
+
+							<source src=" {{ asset('uploads/assets/') ~ asset.url }} ">
 
 							Votre navigateur ne supporte pas la vidéo
 						</video>

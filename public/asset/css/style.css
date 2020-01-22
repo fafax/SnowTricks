@@ -50,6 +50,10 @@ header h1, header p{
    height: auto;
 }
 
+.rounded-circle{
+   width: 50%;
+}
+
 
 @media screen and (min-width: 1280px)
 {
@@ -61,6 +65,7 @@ header h1, header p{
    .menu-responsive{
       display: none;
    }
+     
 }
 
 @media screen and (min-width: 800px) and (max-width: 1280px)
@@ -100,6 +105,11 @@ header h1, header p{
    .menu-responsive i {
       font-size:1.5em;
    }
+
+ .rounded-circle{
+   width: 75%;
+   margin-top: 18px;
+}
 
 
 }
@@ -159,9 +169,7 @@ text-align: center
   display: inline-block;
 }
 
-.rounded-circle{
-   width: 100%;
-}
+
 
 .btn-submit-comment{
    margin-left: 20px;
@@ -182,4 +190,17 @@ video{
 
 .hide{
    display: none;
+}
+
+.media-detail{
+   height: 100px;
+}
+
+#seeMedia a{
+   color: white;
+   
+}
+
+#seeMedia {
+   margin-left: 45%;
 }
