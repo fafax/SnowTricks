@@ -204,3 +204,16 @@ video{
 #seeMedia {
    margin-left: 45%;
 }
+
+.form-delete{
+   display: inline-block;
+}
+
+.btn-delete{
+   border:none;
+   color: #007bff;
+}
+
+.btn-delete:hover{
+   color: #0056b3;
+}

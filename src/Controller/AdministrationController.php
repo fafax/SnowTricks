@@ -9,6 +9,7 @@ use App\Form\TrickType;
 use App\Repository\AssetRepository;
 use App\services\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,25 +110,34 @@ class AdministrationController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete/{id}/{asset}", name="delete_asset")
-     * @ParamConverter("trick" ,options={"mapping" :{"id":"id"}})
-     * @ParamConverter("asset" , class="App\Entity\Asset")
+     * @Route("/trick/delete/{id}", name="delete_asset" )
+     * @Method("DELETE")
      */
-    public function deleteAsset(Asset $asset, Trick $trick, EntityManagerInterface $em)
+
+    public function deleteAsset(Asset $asset, EntityManagerInterface $em, Request $request)
     {
-        $em->remove($asset);
-        $em->flush();
+
+        if ($this->isCsrfTokenValid('delete' . $asset->getId(), $request->get('_token'))) {
+            $trick = $asset->getTrickId();
+            $em->remove($asset);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
     }
 
     /**
      * @Route("/trick/delete/{id}/", name="delete_trick")
+     * @Method("DELETE")
      */
-    public function deleteTrick(Trick $trick, EntityManagerInterface $em)
+    public function deleteTrick(Trick $trick, EntityManagerInterface $em, Request $request)
     {
-        $em->remove($trick);
-        $em->flush();
+
+        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->get('_token'))) {
+            $em->remove($trick);
+            $em->flush();
+
+        }
 
         return $this->redirectToRoute('home');
     }

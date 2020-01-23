@@ -17,7 +17,7 @@
 			{% for asset in assets %}
 				<div class="col-2">
 					{% if asset.type == "image" %}
-						<img class="img-fluid mb-4 media-detail" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
+						<img class="img-fluid mb-1 media-detail" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
 
 
 					{% elseif asset.type == "youtube" %}
@@ -35,10 +35,16 @@
 					<a href="{{ path('update_asset', {id: trick.id, asset:asset.id}) }}">
 						<i class="fas fa-pencil-alt"></i>
 					</a>
+					<form class="form-delete" method="post" action="{{ path('delete_asset', { id: asset.id}) }}" onsubmit="return confirm('voulez-vous supprimer cette asset?');">
 
-					<a href="{{ path('delete_asset', {id: trick.id, asset:asset.id}) }}" onclick="return confirm('voulez-vous supprimer cette asset?');">
-						<i class="fas fa-trash-alt"></i>
-					</a>
+						<button type="submit" class="btn-delete">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asset.id) }}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+
+					</form>
+
 				</div>
 
 			{% endfor %}
