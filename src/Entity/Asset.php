@@ -27,7 +27,7 @@ class Asset
     private $trickId;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $url;
 
@@ -72,7 +72,7 @@ class Asset
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl(?string $url): self
     {
         $this->url = $url;
 

@@ -33,8 +33,8 @@ class DetailTrickController extends AbstractController
             $em->persist($comment);
             $em->flush();
         }
-        if ($assetRepo->findOneBy(array('type' => 'image'))) {
-            $mainAsset = $assetRepo->findOneBy(array('type' => 'image'))->getUrl();
+        if ($assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))) {
+            $mainAsset = $assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))->getUrl();
         }
 
         $comments = array_slice(array_reverse($trick->getComments()->toArray()), 0, 10);

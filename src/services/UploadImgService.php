@@ -102,4 +102,14 @@ class UploadImgService
         $this->em->flush();
 
     }
+
+    public function deleteFile(string $asset)
+    {
+        $filesystem = $this->filesystem;
+        $result = $filesystem->delete("uploads/assets/" . $asset);
+        if ($result === false) {
+            throw new \Exception(sprintf('Error deleting "%s"', $path));
+        }
+
+    }
 }

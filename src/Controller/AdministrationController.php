@@ -9,7 +9,6 @@ use App\Form\TrickType;
 use App\Repository\AssetRepository;
 use App\services\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,8 +54,8 @@ class AdministrationController extends AbstractController
 
         }
 
-        if ($assetRepo->findOneBy(array('type' => 'image'))) {
-            $mainAsset = $assetRepo->findOneBy(array('type' => 'image'))->getUrl();
+        if ($assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))) {
+            $mainAsset = $assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))->getUrl();
         }
         return $this->render('administration/index.html.twig', [
             'controller_name' => 'Edit detail Trick',
@@ -76,9 +75,6 @@ class AdministrationController extends AbstractController
     public function update(Trick $trick, Request $request, Asset $asset, UploadImgService $upload, EntityManagerInterface $em)
     {
 
-        if ($asset->getType === "youtube") {
-
-        }
         $formAsset = $this->createForm(AssetType::class, $asset);
         $formAsset->handleRequest($request);
 
@@ -86,8 +82,9 @@ class AdministrationController extends AbstractController
             $file = $formAsset['file']->getData();
             $type = $formAsset['type']->getData();
             $name = $formAsset['name']->getData();
-            $url = $formAsset['url']->getData();
-
+            if ($type === "youtube") {
+                $url = $formAsset['url']->getData();
+            }
             if ($file === null) {
                 $asset->setType($type);
                 $asset->setName($name);
@@ -110,8 +107,7 @@ class AdministrationController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete/{id}", name="delete_asset" )
-     * @Method("DELETE")
+     * @Route("/trick/delete/{id}", name="delete_asset", methods="DELETE" )
      */
 
     public function deleteAsset(Asset $asset, EntityManagerInterface $em, Request $request)
@@ -127,8 +123,7 @@ class AdministrationController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete/{id}/", name="delete_trick")
-     * @Method("DELETE")
+     * @Route("/trick/delete/{id}/", name="delete_trick" , methods="DELETE" )
      */
     public function deleteTrick(Trick $trick, EntityManagerInterface $em, Request $request)
     {

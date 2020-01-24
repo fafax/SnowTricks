@@ -58,6 +58,8 @@ class Trick
      */
     private $groupsId;
 
+    private $homeAsset;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -203,4 +205,22 @@ class Trick
         return $this;
     }
 
+    /**
+     * Get the value of homeAsset
+     */
+    public function getHomeAsset()
+    {
+        return $this->homeAsset;
+    }
+
+    /**
+     * Set the value of homeAsset
+     *
+     */
+    public function setHomeAsset($homeAsset)
+    {
+        $this->homeAsset = $homeAsset;
+
+        return $this;
+    }
 }

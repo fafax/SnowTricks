@@ -1,7 +1,12 @@
 {% for trick in tricks %}
 	<div class="card-home ">
 		<div class="card h-100">
-			<img class="card-img-top" src="http://placehold.it/300x200" alt="">
+			{% if trick.homeAsset %}
+				<img class="card-img-top" src="{{asset('uploads/assets/') ~ trick.homeAsset}}" alt="">
+			{% else %}
+				<img class="card-img-top" src="{{asset('uploads/assets/pas-d-image-disponible.jpg')}}" alt="">
+			{% endif %}
+
 			<div class="card-body">
 				<a href="{{ path('detail_trick', {slug: trick.slug, id: trick.id}) }}">
 					<h6 class="card-title">{{ trick.name }}</h6>
