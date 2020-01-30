@@ -110,11 +110,12 @@ class AdministrationController extends AbstractController
      * @Route("/trick/delete/{id}", name="delete_asset", methods="DELETE" )
      */
 
-    public function deleteAsset(Asset $asset, EntityManagerInterface $em, Request $request)
+    public function deleteAsset(Asset $asset, EntityManagerInterface $em, Request $request, UploadImgService $upload)
     {
 
         if ($this->isCsrfTokenValid('delete' . $asset->getId(), $request->get('_token'))) {
             $trick = $asset->getTrickId();
+            // $upload->deleteFile($asset->getUrl());
             $em->remove($asset);
             $em->flush();
         }
@@ -129,6 +130,7 @@ class AdministrationController extends AbstractController
     {
 
         if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->get('_token'))) {
+
             $em->remove($trick);
             $em->flush();
 

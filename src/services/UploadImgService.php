@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class UploadImgService
@@ -15,10 +16,14 @@ class UploadImgService
     private $em;
     private $params;
 
+    private $filePath;
+
     public function __construct(ParameterBagInterface $params, EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->params = $params;
+        $this->file = new Filesystem();
+
     }
 
     public function uploadAvatar($data, User $user)
@@ -105,10 +110,10 @@ class UploadImgService
 
     public function deleteFile(string $asset)
     {
-        $filesystem = $this->filesystem;
-        $result = $filesystem->delete("uploads/assets/" . $asset);
+
+        $result = $this->file->remove($asset);
         if ($result === false) {
-            throw new \Exception(sprintf('Error deleting "%s"', $path));
+            throw new \Exception(sprintf('Error deleting "%s"', $asset));
         }
 
     }
