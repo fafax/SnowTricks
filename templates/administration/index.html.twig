@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{controller_name}}
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-12 main-img-detail">
+				<h2 style="background-image: url({{mainAsset}});">{{ trick.name}}</h2>
+			</div>
+		</div>
+		<div class="row">
+			{% for asset in assets %}
+				<div class="col-2">
+					{% if asset.type == "image" %}
+						<img class="img-fluid mb-4" src="{{ asset.url}}" alt="">
+					{% elseif asset.type == "youtube" %}
+						<iframe src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					{% else %}
+						<video controls>
+							<source src="{{ asset('uploads/assets/') ~ asset.url }}">
+
+							Votre navigateur ne supporte pas la vidéo
+						</video>
+
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+
+		{# <div class="row mt-5 mb-3">
+													<p>{{ trick.text }}</p>
+												</div>
+												<div class="row containt-info-trick mb-5 ">
+										
+													<div class="container-info">
+														<p class="info-trick">{{trick.groupsId.name}}</p>
+														<p class="info-trick">Crée le
+															{{trick.createDate | date("d/m/Y H:i")}}</p>
+										
+														{% if trick.updateDate %}
+															<p class="info-trick">Modifié le
+																{{trick.updateDate | date("d/m/Y H:i")}}</p>
+										
+										
+														{% endif %}
+													</div>
+										
+												</div> #}
+
+		{{ form_start(form) }}
+
+		{{ form_widget(form) }}
+
+		{{ form_row(form.groupsId) }}
+
+
+		<div class="text-center">
+
+			<button type="submit" class="btn btn-primary round mt-3">Enregistrer</button>
+
+		</div>
+		{{ form_end(form) }}
+
+
+	</div>
+
+
+{% endblock %}

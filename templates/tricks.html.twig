@@ -1,19 +1,23 @@
+{% for trick in tricks %}
+	<div class="card-home ">
+		<div class="card h-100">
+			<img class="card-img-top" src="http://placehold.it/300x200" alt="">
+			<div class="card-body">
+				<a href="{{ path('detail_trick', {slug: trick.slug, id: trick.id}) }}">
+					<h6 class="card-title">{{ trick.name }}</h6>
+				</a>
+				{% if is_granted('ROLE_ADMIN') %}
 
-				{% for trick in tricks %}
-					<div class="card-home ">
-						<div class="card h-100">
-							<img class="card-img-top" src="http://placehold.it/300x200" alt="">
-							<div class="card-body">
-								<a href="{{ path('detail_trick', {slug: trick.slug, id: trick.id}) }}">
-									<h6 class="card-title">{{ trick.name }}</h6>
-								</a>
-								<a href="">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
-								<a href="">
-									<i class="fas fa-trash-alt"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-				{% endfor %}
+					<a href="{{ path('edit_detail_trick', {slug: trick.slug, id: trick.id}) }}">
+
+
+						<i class="fas fa-pencil-alt"></i>
+					</a>
+					<a href="">
+						<i class="fas fa-trash-alt"></i>
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}

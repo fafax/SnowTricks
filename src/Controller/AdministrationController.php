@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\TrickType;
 use App\Repository\AssetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -11,38 +11,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DetailTrickController extends AbstractController
+class AdministrationController extends AbstractController
 {
     /**
-     * @Route("/trick/{slug}/{id}", name="detail_trick")
+     * @Route("/trick/edit/{slug}/{id}", name="edit_detail_trick")
      * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
      */
     public function index(Trick $trick, Request $request, EntityManagerInterface $em, AssetRepository $assetRepo)
     {
 
-        $comments = $trick->getComments();
         $assets = $trick->getAssets();
         $mainAsset = null;
 
-        if ($request->request->has("comment")) {
-            $comment = new Comment();
-            $comment->setComment($request->request->get('comment'));
-            $comment->setCreateDate(new \DateTime());
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-            $em->persist($comment);
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($trick);
             $em->flush();
+            return $this->redirectToRoute('home');
+
         }
+
         if ($assetRepo->findOneBy(array('type' => 'image'))) {
             $mainAsset = $assetRepo->findOneBy(array('type' => 'image'))->getUrl();
         }
 
-        return $this->render('detail_trick/index.html.twig', [
-            'controller_name' => 'Detail Trick',
+        return $this->render('administration/index.html.twig', [
+            'controller_name' => 'Edit detail Trick',
             'trick' => $trick,
-            'comments' => $comments,
             'assets' => $assets,
             'mainAsset' => $mainAsset,
+            'form' => $form->createView(),
         ]);
     }
 }

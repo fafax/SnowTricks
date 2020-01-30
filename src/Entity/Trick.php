@@ -56,7 +56,7 @@ class Trick
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="tricks")
      */
-    private $groupId;
+    private $groupsId;
 
     public function __construct()
     {
@@ -191,14 +191,14 @@ class Trick
         return $this;
     }
 
-    public function getGroupId(): ?Groups
+    public function getGroupsId(): ?Groups
     {
-        return $this->groupId;
+        return $this->groupsId;
     }
 
-    public function setGroupId(?Groups $groupId): self
+    public function setGroupsId(?Groups $groupsId): self
     {
-        $this->groupId = $groupId;
+        $this->groupsId = $groupsId;
 
         return $this;
     }
