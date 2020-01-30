@@ -115,7 +115,8 @@ class AdministrationController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete' . $asset->getId(), $request->get('_token'))) {
             $trick = $asset->getTrickId();
-            // $upload->deleteFile($asset->getUrl());
+
+            $upload->deleteFile($asset->getUrl());
             $em->remove($asset);
             $em->flush();
         }
