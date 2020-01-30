@@ -72,7 +72,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         if (!$user->getActive()) {
-            throw new CustomUserMessageAuthenticationException("Vous devez activé votre compte avant de vous connecter.");
+            throw new CustomUserMessageAuthenticationException("Vous devez activer votre compte avant de vous connecter.");
 
         }
 
