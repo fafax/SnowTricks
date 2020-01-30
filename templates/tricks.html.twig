@@ -1,0 +1,31 @@
+{% for trick in tricks %}
+	<div class="card-home ">
+		<div class="card h-100">
+			{% if trick.homeAsset %}
+				<img class="card-img-top" src="{{asset('uploads/assets/') ~ trick.homeAsset}}" alt="">
+			{% else %}
+				<img class="card-img-top" src="{{asset('uploads/assets/pas-d-image-disponible.jpg')}}" alt="">
+			{% endif %}
+
+			<div class="card-body">
+				<a href="{{ path('detail_trick', {slug: trick.slug, id: trick.id}) }}">
+					<h6 class="card-title">{{ trick.name }}</h6>
+				</a>
+				{% if is_granted('ROLE_ADMIN') %}
+
+					<a href="{{ path('edit_detail_trick', {slug: trick.slug, id: trick.id}) }}">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
+
+					<form class="form-delete" method="post" action="{{ path('delete_trick', {id: trick.id}) }}" onsubmit="return confirm('voulez-vous supprimer ce trick ?');">
+						<button type="submit" class="btn-delete">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}

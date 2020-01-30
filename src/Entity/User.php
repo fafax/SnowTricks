@@ -50,6 +50,16 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -179,6 +189,30 @@ class User implements UserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

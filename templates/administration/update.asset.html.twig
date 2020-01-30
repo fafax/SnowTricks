@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{controller_name}}
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="container text-center">
+
+
+		<h2 class="mb-5">Update de l'asset
+			{{asset.name}}</h2>
+
+
+		{{ form_start(formAsset) }}
+
+
+		{{ form_row(formAsset.type) }}
+
+		{{ form_row(formAsset.name) }}
+
+		{{ form_row(formAsset.file) }}
+
+		{% if asset.type == "youtube" %}
+			{{ form_row(formAsset.url, { 'label': 'URL' }) }}
+		{% else %}
+			{{ form_row(formAsset.url, { 'label': 'Nom du fichier','disabled' : true }) }}
+
+
+		{% endif %}
+
+		<div class="text-center">
+			<button type="submit" class="btn btn-primary round mt-3">Enregistrer</button>
+		</div>
+		{{ form_end(formAsset) }}
+
+
+	</div>
+
+{% endblock %}
