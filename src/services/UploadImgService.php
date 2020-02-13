@@ -16,13 +16,13 @@ class UploadImgService
     private $em;
     private $params;
 
-    private $filePath;
+    private $filesystem;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em)
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, Filesystem $filesystem)
     {
         $this->em = $em;
         $this->params = $params;
-        $this->file = new Filesystem();
+        $this->filesystem = $filesystem;
 
     }
 
@@ -95,7 +95,7 @@ class UploadImgService
                 $newFilename
             );
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+
         }
 
         $asset->setname($name);
@@ -110,11 +110,6 @@ class UploadImgService
 
     public function deleteFile(string $asset)
     {
-
-        $result = $this->file->remove($asset);
-        if ($result === false) {
-            throw new \Exception(sprintf('Error deleting "%s"', $asset));
-        }
-
+        $this->filesystem->remove($this->params->get('assets_directory') . '/' . $asset);
     }
 }
