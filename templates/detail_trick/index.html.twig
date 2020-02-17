@@ -27,8 +27,7 @@
 						<video class="media-detail" controls>
 
 							<source src="{{ asset('uploads/assets/') ~ asset.url }}">
-
-							Votre navigateur ne supporte pas la vidéo
+							Your browser does not support video
 						</video>
 					{% endif %}
 				</div>
@@ -75,7 +74,7 @@
 				</form>
 			{% else %}
 				<div class="col-8">
-					<h6>Pour poster un commentaire vous devez vous connecter.</h6>
+					<h6>To post a comment you must log in.</h6>
 				</div>
 				<div class="col-4">
 					<a href="{{ path("app_login")}}" class="btn btn-primary round">Connexion</a>
@@ -87,9 +86,9 @@
 		<div class="row" id="comments">
 			<div class=" mb-3 count-comment">
 				{% if count <= 1 %}
-					<h6>Commentaire ({{count}})</h6>
+					<h6>Comment ({{count}})</h6>
 				{% else %}
-					<h6>Commentaires ({{count}})</h6>
+					<h6>Comments ({{count}})</h6>
 				{% endif %}
 
 			</div>

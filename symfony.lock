@@ -124,7 +124,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -134,6 +134,12 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.10"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.4"
     },
     "psr/cache": {
         "version": "1.0.1"

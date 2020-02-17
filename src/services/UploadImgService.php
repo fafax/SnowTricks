@@ -83,9 +83,8 @@ class UploadImgService
         $this->em->flush();
     }
 
-    public function updateAsset(Asset $asset, $data, Trick $trick, $type, $name)
+    public function updateAssetService(Asset $asset, $data, Trick $trick, $type, $name)
     {
-        $asset = $asset;
         $pictureFile = $data;
         $newFilename = uniqid() . '.' . $pictureFile->guessExtension();
 
@@ -97,7 +96,6 @@ class UploadImgService
         } catch (FileException $e) {
 
         }
-
         $asset->setname($name);
         $asset->setType($type);
         $asset->setUrl($newFilename);
@@ -105,11 +103,10 @@ class UploadImgService
 
         $this->em->merge($asset);
         $this->em->flush();
-
     }
 
-    public function deleteFile(string $asset)
+    public function deleteFile(string $assetName)
     {
-        $this->filesystem->remove($this->params->get('assets_directory') . '/' . $asset);
+        $this->filesystem->remove($this->params->get('assets_directory') . '/' . $assetName);
     }
 }

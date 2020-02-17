@@ -19,7 +19,7 @@ class TrickType extends AbstractType
             ->add('groupsId', EntityType::class, [
                 'class' => Groups::class,
                 'choice_label' => 'name',
-                'placeholder' => 'selectionner un groupe',
+                'placeholder' => 'select a group',
             ]);
     }
 

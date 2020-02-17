@@ -194,6 +194,8 @@ video{
 
 .media-detail{
    height: 100px;
+   width: 100%;
+   object-fit: cover;
 }
 
 #seeMedia a{
@@ -216,4 +218,15 @@ video{
 
 .btn-delete:hover{
    color: #0056b3;
+}
+
+
+.card-img-top{
+object-fit: contain;
+height: 70%;
+}
+
+
+.card-body h6{
+   padding: 0px;
 }

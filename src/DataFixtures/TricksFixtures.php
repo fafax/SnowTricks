@@ -6,7 +6,7 @@ use App\Entity\Groups;
 use App\Entity\Trick;
 use App\services\SlugService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class TricksFixtures extends Fixture
 {

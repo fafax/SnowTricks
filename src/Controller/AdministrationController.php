@@ -16,11 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdministrationController extends AbstractController
 {
+
+    private $em;
+    private $assetRepo;
+    private $upload;
+
+    public function __construct(EntityManagerInterface $em, AssetRepository $assetRepo, UploadImgService $upload)
+    {
+        $this->em = $em;
+        $this->assetRepo = $assetRepo;
+        $this->upload = $upload;
+
+    }
+
     /**
      * @Route("/trick/edit/{slug}/{id}", name="edit_detail_trick")
      * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
      */
-    public function index(Trick $trick, Request $request, EntityManagerInterface $em, AssetRepository $assetRepo, UploadImgService $upload)
+    public function index(Trick $trick, Request $request)
     {
 
         $assets = $trick->getAssets();
@@ -30,8 +43,8 @@ class AdministrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($trick);
-            $em->flush();
+            $this->em->persist($trick);
+            $this->em->flush();
             return $this->redirectToRoute('home');
         }
         $asset = new Asset;
@@ -40,22 +53,11 @@ class AdministrationController extends AbstractController
         $formAsset->handleRequest($request);
 
         if ($formAsset->isSubmitted() && $formAsset->isValid()) {
-            $file = $formAsset['file']->getData();
-            $type = $formAsset['type']->getData();
-            $name = $formAsset['name']->getData();
-            $url = $formAsset['url']->getData();
-            if ($type === "youtube") {
-                $upload->uploadAssetURL($url, $trick, $type, $name);
-
-            } else {
-                $upload->uploadAsset($file, $trick, $type, $name);
-            }
-            return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
-
+            $this->setAsset($formAsset, $trick);
         }
 
-        if ($assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))) {
-            $mainAsset = $assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))->getUrl();
+        if ($this->assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))) {
+            $mainAsset = $this->assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))->getUrl();
         }
         return $this->render('administration/index.html.twig', [
             'controller_name' => 'Edit detail Trick',
@@ -72,32 +74,16 @@ class AdministrationController extends AbstractController
      * @ParamConverter("trick" ,options={"mapping" :{"id":"id"}})
      * @ParamConverter("asset" , class="App\Entity\Asset")
      */
-    public function update(Trick $trick, Request $request, Asset $asset, UploadImgService $upload, EntityManagerInterface $em)
+    public function update(Trick $trick, Request $request, Asset $asset)
     {
-
+        $this->upload->deleteFile($asset->getUrl());
         $formAsset = $this->createForm(AssetType::class, $asset);
         $formAsset->handleRequest($request);
 
         if ($formAsset->isSubmitted() && $formAsset->isValid()) {
-            $file = $formAsset['file']->getData();
-            $type = $formAsset['type']->getData();
-            $name = $formAsset['name']->getData();
-            if ($type === "youtube") {
-                $url = $formAsset['url']->getData();
-            }
-            if ($file === null) {
-                $asset->setType($type);
-                $asset->setName($name);
-                $asset->setUrl($url);
-                $em->merge($asset);
-                $em->flush();
-            } else {
-                $upload->updateAsset($asset, $file, $trick, $type, $name);
-            }
+            $this->updateAsset($formAsset, $asset, $trick);
             return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
-
         }
-
         return $this->render('administration/update.asset.html.twig', [
             'controller_name' => 'Update asset',
             'trick' => $trick,
@@ -109,40 +95,69 @@ class AdministrationController extends AbstractController
     /**
      * @Route("/trick/delete/asset/{id}", name="delete_asset", methods="DELETE" )
      */
-
-    public function deleteAsset(Asset $asset, EntityManagerInterface $em, Request $request, UploadImgService $upload)
+    public function deleteAsset(Asset $asset, Request $request)
     {
-
         if ($this->isCsrfTokenValid('delete' . $asset->getId(), $request->get('_token'))) {
             $trick = $asset->getTrickId();
-
-            $upload->deleteFile($asset->getUrl());
-            $em->remove($asset);
-            $em->flush();
+            $this->upload->deleteFile($asset->getUrl());
+            $this->em->remove($asset);
+            $this->em->flush();
         }
-
         return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
     }
 
     /**
      * @Route("/trick/delete/{id}/", name="delete_trick" , methods="DELETE" )
      */
-    public function deleteTrick(Trick $trick, EntityManagerInterface $em, Request $request, AssetRepository $assetRepo, UploadImgService $upload)
+    public function deleteTrick(Trick $trick, Request $request)
     {
-
         if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->get('_token'))) {
-
-            $assets = $assetRepo->findby(["trickId" => $trick->getId()]);
+            $assets = $this->assetRepo->findby(["trickId" => $trick->getId()]);
             for ($i = 0; $i < count($assets); $i++) {
-                $upload->deleteFile($assets[$i]->getUrl());
-                $em->remove($assets[$i]);
+                $this->upload->deleteFile($assets[$i]->getUrl());
+                $this->em->remove($assets[$i]);
             }
+            $this->em->remove($trick);
+            $this->em->flush();
+        }
+        return $this->redirectToRoute('home');
+    }
 
-            $em->remove($trick);
-            $em->flush();
-
+    /*
+     * create new asset based on option
+     */
+    private function setAsset($formAsset, $trick)
+    {
+        $file = $formAsset['file']->getData();
+        $type = $formAsset['type']->getData();
+        $name = $formAsset['name']->getData();
+        $url = $formAsset['url']->getData();
+        if ($type === "youtube") {
+            $this->upload->uploadAssetURL($url, $trick, $type, $name);
+        } else {
+            $this->upload->uploadAsset($file, $trick, $type, $name);
         }
 
-        return $this->redirectToRoute('home');
+    }
+
+    /*
+     * update asset based on option
+     */
+    private function updateAsset($formAsset, $asset, $trick)
+    {
+        $file = $formAsset['file']->getData();
+        $type = $formAsset['type']->getData();
+        $name = $formAsset['name']->getData();
+
+        if ($file === null && $type === "youtube") {
+            $asset->setType($type);
+            $asset->setName($name);
+            $asset->setUrl($formAsset['url']->getData());
+            $this->em->merge($asset);
+            $this->em->flush();
+        } else {
+            $this->upload->updateAssetService($asset, $file, $trick, $type, $name);
+        }
+
     }
 }

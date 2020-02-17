@@ -20,7 +20,7 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('avatarFile', FileType::class, [
                 'required' => false,
-                'label' => 'Choississez votre fichier',
+                'label' => 'Choose your file',
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -28,7 +28,7 @@ class UserType extends AbstractType
                             'image/jpeg',
                             'image/png',
                         ],
-                        'mimeTypesMessage' => "L'extention doit être png ou jpeg",
+                        'mimeTypesMessage' => "The extension must be png or jpeg",
                     ]),
                 ],
             ]);
