@@ -36,13 +36,13 @@ click in "Sign in"
 
 for reset password 
 
-1 - Log out
-2 - Sign in
-3 - Forgot Password
-4 - User Name = admin
-5 - click in Ask for reset
-6 - User name = admin
-7 - Change with a secure password
+- Log out
+- Sign in
+- Forgot Password
+- User Name = admin
+- click in Ask for reset
+- User name = admin
+- Change with a secure password
 
 ## Functionality of the snowtrick project
 - Add trick
