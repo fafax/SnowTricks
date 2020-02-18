@@ -50,7 +50,10 @@ for reset password
 - Add assets on a post trick
 - Trick management
 - Asset management
+
+## Test code climate
    
+[![Maintainability](https://api.codeclimate.com/v1/badges/3019b7fb47b4c56e65a6/maintainability)](https://codeclimate.com/github/fafax/SnowTricks/maintainability)
 
 ## Stay in touch
 
