@@ -25,13 +25,7 @@ class DetailTrickController extends AbstractController
         $mainAsset = null;
 
         if ($request->request->has("comment")) {
-            $comment = new Comment();
-            $comment->setComment($request->request->get('comment'));
-            $comment->setCreateDate(new \DateTime());
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-            $em->persist($comment);
-            $em->flush();
+            $this->addComment($request, $em, $trick);
         }
         if ($assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))) {
             $mainAsset = $assetRepo->findOneBy(array('type' => 'image', 'trickId' => $trick->getId()))->getUrl();
@@ -66,5 +60,17 @@ class DetailTrickController extends AbstractController
             'controller_name' => 'Home',
             'comments' => $comments,
         ]);
+    }
+
+    private function addComment($request, $em, $trick)
+    {
+        $comment = new Comment();
+        $comment->setComment($request->request->get('comment'));
+        $comment->setCreateDate(new \DateTime());
+        $comment->setTrick($trick);
+        $comment->setUser($this->getUser());
+        $em->persist($comment);
+        $em->flush();
+
     }
 }
