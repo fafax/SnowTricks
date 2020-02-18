@@ -71,6 +71,5 @@ class DetailTrickController extends AbstractController
         $comment->setUser($this->getUser());
         $em->persist($comment);
         $em->flush();
-
     }
 }
