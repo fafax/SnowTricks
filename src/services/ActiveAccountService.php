@@ -15,12 +15,19 @@ class ActiveAccountService
         $this->em = $em;
     }
 
+    /*
+     * Generate token for active account
+     */
     private function generateToken()
     {
         $unique = \uniqid();
         $token = md5($unique);
         return $token;
     }
+
+    /*
+     * Set token in database for active account
+     */
 
     public function setUserToken(User $user)
     {

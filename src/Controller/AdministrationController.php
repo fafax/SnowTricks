@@ -103,6 +103,9 @@ class AdministrationController extends AbstractController
             $this->em->remove($asset);
             $this->em->flush();
         }
+
+        $this->addFlash('success', 'Delete asset success');
+
         return $this->redirectToRoute('edit_detail_trick', ["id" => $trick->getId(), "slug" => $trick->getSlug()]);
     }
 
@@ -120,6 +123,8 @@ class AdministrationController extends AbstractController
             $this->em->remove($trick);
             $this->em->flush();
         }
+        $this->addFlash('success', 'Delete trick success');
+
         return $this->redirectToRoute('home');
     }
 
@@ -137,6 +142,8 @@ class AdministrationController extends AbstractController
         } else {
             $this->upload->uploadAsset($file, $trick, $type, $name);
         }
+
+        $this->addFlash('success', 'Create asset success');
 
     }
 
@@ -158,6 +165,6 @@ class AdministrationController extends AbstractController
         } else {
             $this->upload->updateAssetService($asset, $file, $trick, $type, $name);
         }
-
+        $this->addFlash('success', 'Update asset success');
     }
 }

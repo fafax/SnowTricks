@@ -17,10 +17,16 @@ Recover the project
 
 Create database
 
-Change line DATABASE_URL=mysql:// in .env file with your setting database
+copy .env file and rename this in .env.local
+
+Change line DATABASE_URL=mysql:// in .env.local file with your setting database
 
     php bin/console doctrine:database:create
     php bin/console doctrine:migrations:migrate
+
+Configuration mail
+
+Change line MAIL in .env.local file with your mail address
 
 ## Set data
 for example data

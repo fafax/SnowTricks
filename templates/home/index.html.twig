@@ -42,8 +42,9 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script>
+	{{ parent() }}
 
+	<script>
 		const lien = document.getElementById("moreTrick");
 
 let count = 15;

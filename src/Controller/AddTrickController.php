@@ -27,6 +27,8 @@ class AddTrickController extends AbstractController
                 ->setCreateDate(new \DateTime());
             $em->persist($trick);
             $em->flush();
+            $this->addFlash('success', 'Create trick success');
+
             return $this->redirectToRoute('home');
         }
 

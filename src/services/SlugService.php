@@ -5,27 +5,31 @@ namespace App\services;
 class SlugService
 {
 
-   public function addSlug($string)
-   {
+/*
+ * Generate slug for trick
+ */
 
-      // replace non letter or digits by -
-      $string = preg_replace('~[^\pL\d]+~u', '-', $string);
+    public function addSlug($string)
+    {
 
-      // transliterate
-      $string = iconv('utf-8', 'us-ascii//TRANSLIT', $string);
+        // replace non letter or digits by -
+        $string = preg_replace('~[^\pL\d]+~u', '-', $string);
 
-      // remove unwanted characters
-      $string = preg_replace('~[^-\w]+~', '', $string);
+        // transliterate
+        $string = iconv('utf-8', 'us-ascii//TRANSLIT', $string);
 
-      // trim
-      $string = trim($string, '-');
+        // remove unwanted characters
+        $string = preg_replace('~[^-\w]+~', '', $string);
 
-      // remove duplicate -
-      $string = preg_replace('~-+~', '-', $string);
+        // trim
+        $string = trim($string, '-');
 
-      // lowercase
-      $string = strtolower($string);
+        // remove duplicate -
+        $string = preg_replace('~-+~', '-', $string);
 
-      return $string;
-   }
+        // lowercase
+        $string = strtolower($string);
+
+        return $string;
+    }
 }

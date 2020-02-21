@@ -15,6 +15,9 @@ class MailService
 
     }
 
+/*
+ * Send email for active account
+ */
     public function sendEmail($email, $objet, $content)
     {
 

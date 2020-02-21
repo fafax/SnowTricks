@@ -26,6 +26,9 @@ class UploadImgService
 
     }
 
+    /*
+     * Upload image in server and generate unique file name
+     */
     public function uploadAvatar($data, User $user)
     {
 
@@ -45,6 +48,9 @@ class UploadImgService
 
     }
 
+    /*
+     * Upload image in server and generate unique file name
+     */
     public function uploadAsset($data, Trick $trick, $type, $name)
     {
         $asset = new Asset();
@@ -70,6 +76,10 @@ class UploadImgService
 
     }
 
+    /*
+     * put url for the youtube link in database
+     */
+
     public function uploadAssetURL($url, Trick $trick, $name)
     {
         $asset = new Asset();
@@ -83,6 +93,9 @@ class UploadImgService
         $this->em->flush();
     }
 
+/*
+ * update asset
+ */
     public function updateAssetService(Asset $asset, $data, Trick $trick, $type, $name)
     {
         $pictureFile = $data;
@@ -105,6 +118,9 @@ class UploadImgService
         $this->em->flush();
     }
 
+/*
+ * Remove asset in server
+ */
     public function deleteFile(string $assetName)
     {
         $this->filesystem->remove($this->params->get('assets_directory') . '/' . $assetName);
