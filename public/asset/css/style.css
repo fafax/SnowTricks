@@ -219,7 +219,7 @@ video{
 
 
 .card-img-top{
-object-fit: contain;
+object-fit: fill;
 height: 70%;
 }
 
