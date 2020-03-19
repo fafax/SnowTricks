@@ -27,7 +27,7 @@ class Asset
     private $trickId;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $url;
 
@@ -35,6 +35,8 @@ class Asset
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    private $file;
 
     public function getId(): ?int
     {
@@ -70,7 +72,7 @@ class Asset
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl(?string $url): self
     {
         $this->url = $url;
 
@@ -80,6 +82,17 @@ class Asset
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+        return $this;
     }
 
     public function setName(string $name): self

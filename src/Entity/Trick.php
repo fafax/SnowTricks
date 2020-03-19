@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @UniqueEntity("name")
  */
 class Trick
 {
@@ -56,7 +58,9 @@ class Trick
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="tricks")
      */
-    private $groupId;
+    private $groupsId;
+
+    private $homeAsset;
 
     public function __construct()
     {
@@ -191,14 +195,33 @@ class Trick
         return $this;
     }
 
-    public function getGroupId(): ?Groups
+    public function getGroupsId(): ?Groups
     {
-        return $this->groupId;
+        return $this->groupsId;
     }
 
-    public function setGroupId(?Groups $groupId): self
+    public function setGroupsId(?Groups $groupsId): self
     {
-        $this->groupId = $groupId;
+        $this->groupsId = $groupsId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of homeAsset
+     */
+    public function getHomeAsset()
+    {
+        return $this->homeAsset;
+    }
+
+    /**
+     * Set the value of homeAsset
+     *
+     */
+    public function setHomeAsset($homeAsset)
+    {
+        $this->homeAsset = $homeAsset;
 
         return $this;
     }

@@ -1,113 +1,167 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   {{controller_name}}
+	{{controller_name}}
 {% endblock %}
 
 {% block body %}
 
 
-   <div class="container">
-      <div class="row mb-5">
-         <div class="col-12 main-img-detail">
-            <h2 style="background-image: url( {{mainAsset}});">{{ trick.name}}</h2>
-         </div>
-      </div>
-      <div class="row">
-         {% for asset in assets %}
-            <div class="col-2">
-               {% if asset.type == "image" %}
-                  <img class="img-fluid mb-4" src="{{ asset.url}}" alt="">
-               {% elseif asset.type == "youtube" %}
-                  <iframe src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-               {% else %}
-                  <video controls>
-                     <source src="{{ asset('uploads/assets/') ~ asset.url }}">
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-12 main-img-detail">
+				<h2 style="background-image: url({{asset('uploads/assets/') ~ mainAsset}});">{{ trick.name}}</h2>
 
-                     Votre navigateur ne supporte pas la vidéo
-                  </video>
+			</div>
+		</div>
+		<div class="row" id="media">
+			{% for asset in assets %}
+				<div class=" col-md-2 col-12 ">
+					{% if asset.type == "image" %}
+						<img class="img-fluid mb-4 media-detail" src="{{ asset('uploads/assets/') ~ asset.url }}" alt="">
 
-               {% endif %}
-            </div>
-         {% endfor %}
-      </div>
+					{% elseif asset.type == "youtube" %}
+						<iframe class="media-detail" src="{{ asset.url}}" frameborder="0" allow="encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-      <div class="row mt-5 mb-3">
-         <p>{{ trick.text }}</p>
-      </div>
-      <div class="row containt-info-trick mb-5 ">
+					{% else %}
+						<video class="media-detail" controls>
 
-         <div class="container-info">
-            <p class="info-trick">{{trick.groupId.name}}</p>
-            <p class="info-trick">Crée le
-               {{trick.createDate | date("d/m/Y H:i")}}</p>
+							<source src="{{ asset('uploads/assets/') ~ asset.url }}">
+							Your browser does not support video
+						</video>
+					{% endif %}
+				</div>
 
-            {% if trick.updateDate %}
-               <p class="info-trick">Modifié le
-                  {{trick.updateDate | date("d/m/Y H:i")}}</p>
+			{% endfor %}
 
 
-            {% endif %}
-         </div>
+		</div>
 
-      </div>
-
-      <div class="row">
-         {% if app.user %}
-            <form action="" method="post" class="form-comment">
-               <div class="col-10 form-group">
-                  <input type="text" name="comment" class="form-control" placeholder="Commenter...">
-               </div>
-               <div class="col-1">
-                  <button type="submit" class="btn btn-primary round btn-submit-comment">Envoyer</button>
-               </div>
-
-            </form>
-         {% else %}
-            <div class="col-10">
-               <h6>Pour poster un commentaire vous devez vous connecter.</h6>
-            </div>
-            <div class="col-2">
-               <a href="{{ path("app_login")}}" class="btn btn-primary round">Connexion</a>
-            </div>
-         {% endif %}
-      </div>
+		<div class="btn btn-primary round hide" id="seeMedia">
+			<a href="">See média</a>
+		</div>
 
 
-      {% if comments | length <= 1 %}
-         <h6>Commentaire ({{comments | length}})</h6>
-      {% else %}
-         <h6>Commentaires ({{comments | length}})</h6>
-         {%endif%}
-         <hr>
-         {% for comment in comments %}
-            <div class="row comment-post">
-               <div class="col-1 pt-2">
-                  {% if comment.user.avatarFile %}
-                     <img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/') ~ comment.user.avatarFile }}" alt="">
+		<div class="row mt-5 mb-3">
+			<p>{{ trick.text }}</p>
+		</div>
+		<div class="row containt-info-trick mb-5 ">
+
+			<div class="container-info">
+				<p class="info-trick">{{trick.groupsId.name}}</p>
+				<p class="info-trick">Crée le
+					{{trick.createDate | date("d/m/Y H:i")}}</p>
+
+				{% if trick.updateDate %}
+					<p class="info-trick">Modifié le
+						{{trick.updateDate | date("d/m/Y H:i")}}</p>
+				{% endif %}
+			</div>
+
+		</div>
+
+		<div class="row col-12">
+			{% if app.user %}
+				<form action="" method="post" class="form-comment">
+					<div class="col-9 form-group">
+						<input type="text" name="comment" class="form-control" placeholder="Commenter..." required="true">
+
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-primary round btn-submit-comment">Envoyer</button>
+					</div>
+
+				</form>
+			{% else %}
+				<div class="col-8">
+					<h6>To post a comment you must log in.</h6>
+				</div>
+				<div class="col-4">
+					<a href="{{ path("app_login")}}" class="btn btn-primary round">Connexion</a>
+				</div>
+			{% endif %}
+		</div>
 
 
-                  {% else %}
-                     <img class="md-avatar rounded-circle" src="{{ asset('uploads/avatars/no-avatar.png') }}" alt="">
+		<div class="row" id="comments">
+			<div class=" mb-3 count-comment">
+				{% if count <= 1 %}
+					<h6>Comment ({{count}})</h6>
+				{% else %}
+					<h6>Comments ({{count}})</h6>
+				{% endif %}
 
-                  {% endif %}
+			</div>
 
-               </div>
-               <div class="col-11 border mb-3">
+			{% include("comments.html.twig")%}
 
-                  <p class="info-comment">
-                     {{comment.createDate|date("d-m-Y H:i")}}
-                     {{comment.user.userName}}
-                  </p>
-
-                  <p>{{comment.comment}}
-                  </p>
-               </div>
-            </div>
-         {% endfor %}
+		</div>
 
 
-      </div>
+		<div class="text-center mt-5" id="containerMoreComment">
+			<a class="btn btn-primary round" id="moreComment" href="">
+				More comment</a>
+		</div>
+
+	</div>
 
 
-   {% endblock %}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+
+	<script>
+		const lien = document.getElementById("moreComment");
+
+let count = 5;
+
+let url = "{{ url }}";
+
+
+lien.addEventListener("click", moreComment);
+
+function moreComment(event) {
+
+if (10 + count >= {{ count }}) {
+document.getElementById("containerMoreComment").classList.add("hide")
+}
+
+
+fetch(url + "/" + count).then(response => {
+count += 5;
+return response.text()
+}).then(body => {
+const container = document.getElementById("comments");
+let doc = new DOMParser().parseFromString(body, 'text/html');
+let tabElement = doc.body.childNodes;
+tabElement.forEach(element => {
+container.appendChild(element);
+});
+})
+
+
+event.preventDefault();
+}
+
+const media = document.getElementById('media');
+const btnSee = document.getElementById('seeMedia')
+
+btnSee.addEventListener("click", () => {
+clearInterval(loop);
+media.classList.remove("hide");
+btnSee.classList.add("hide");
+event.preventDefault();
+})
+
+
+loop = setInterval(() => {
+if (window.innerWidth < 800) {
+media.classList.add("hide");
+btnSee.classList.remove("hide")
+} else {
+media.classList.remove("hide");
+btnSee.classList.add("hide")
+}
+}, 1000)
+	</script>
+{% endblock %}

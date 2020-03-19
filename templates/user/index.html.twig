@@ -5,27 +5,27 @@
 {% endblock %}
 
 {% block body %}
-   <div class="container">
-      <h2 class="text-center mb-5">Registration</h2>
+	<div class="container">
+		<h2 class="text-center mb-5">Registration</h2>
 
-      <div class="border border-dark p-5">
+		<div class="border border-dark p-5">
 
-         {{ form_start(form) }}
+			{{ form_start(form) }}
 
-         {{ form_widget(form) }}
-         <div class="text-center">
-            <div>
-               <a href="{{ path('app_login') }}">Already on account ?</a>
+			{{ form_widget(form) }}
+			<div class="text-center">
+				<div>
+					<a href="{{ path('app_login') }}">Already on account ?</a>
 
-            </div>
-            <button type="submit" class="btn btn-primary round mt-3">Enregistrer</button>
+				</div>
+				<button type="submit" class="btn btn-primary round mt-3">Save</button>
 
-         </div>
+			</div>
 
-         {{ form_end(form) }}
+			{{ form_end(form) }}
 
-      </div>
+		</div>
 
-   </div>
+	</div>
 
 {% endblock %}

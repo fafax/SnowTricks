@@ -7,7 +7,7 @@ parameters:
     locale: 'fr'
     assets_directory: '%kernel.project_dir%/public/uploads/assets'
     avatar_directory: '%kernel.project_dir%/public/uploads/avatars'
-    mail: 'contact@codeassemblydev.fr'
+    mail: '%env(MAIL)%'
 services:
     # default configuration for services in *this* file
     _defaults:

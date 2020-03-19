@@ -30,25 +30,87 @@ header h1, header p{
 
 .arrow-down{
    position: absolute;
-   bottom: 50px;
+   bottom: 60px;
    right: 50px;
-   
 }
 
-.arrow-up{
-   position: absolute;
-   top: 195vh;
-   right: 50px;
-   
+.arrow-container{
+   display: flex;
+   flex-wrap: nowrap;
+   justify-content: flex-end;
+   margin-bottom: 60px;
+   margin-right: 50px;
 }
 
 .page-tricks{
-   height: 98vh;
+   min-height: 70vh;
+   height: auto;
 }
 
-.col-md-3{
-   flex: 0 0 20% !important;
+.rounded-circle{
+   width: 50%;
 }
+
+@media screen and (min-width: 1280px)
+{
+    .card-home {
+      flex: 1 1 18% !important;
+      margin: 1%;
+      max-width: 18%;
+      max-height: 280px;
+   }
+   .menu-responsive{
+      display: none;
+   }
+     
+}
+
+@media screen and (min-width: 800px) and (max-width: 1280px)
+{
+    .card-home {
+   flex: 1 1 46% !important;
+   margin: 1%;
+   }
+   .menu-responsive{
+      display: none;
+   }
+}
+
+@media screen and (max-width: 800px)
+{
+    .card-home {
+   flex: 1 1 96% !important;
+   margin: 2%;
+   }
+   .barre-navigation{
+      display: none;
+   }
+   .menu-responsive{
+      position: fixed;
+      bottom: 0;
+      width: 100vw;
+    height: 50px;
+   }
+
+   .menu-responsive .container{
+    display: flex ;
+    height: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+   }
+
+   .menu-responsive i {
+      font-size:1.5em;
+   }
+
+ .rounded-circle{
+   width: 75%;
+   margin-top: 18px;
+}
+
+
+}
+
 
 .card-body h6{
    display: inline-block;
@@ -104,9 +166,7 @@ text-align: center
   display: inline-block;
 }
 
-.rounded-circle{
-   width: 100%;
-}
+
 
 .btn-submit-comment{
    margin-left: 20px;
@@ -119,4 +179,51 @@ iframe{
 
 video{
    width: 100%;
+}
+
+.count-comment{
+    width: 100vw;
+}
+
+.hide{
+   display: none;
+}
+
+.media-detail{
+   height: 100px;
+   width: 100%;
+   object-fit: cover;
+}
+
+#seeMedia a{
+   color: white;
+   
+}
+
+#seeMedia {
+   margin-left: 45%;
+}
+
+.form-delete{
+   display: inline-block;
+}
+
+.btn-delete{
+   border:none;
+   color: #007bff;
+}
+
+.btn-delete:hover{
+   color: #0056b3;
+}
+
+
+.card-img-top{
+object-fit: fill;
+height: 70%;
+}
+
+
+.card-body h6{
+   padding: 0px;
 }
