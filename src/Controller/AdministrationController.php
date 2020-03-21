@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\AssetType;
 use App\Form\TrickType;
 use App\Repository\AssetRepository;
+use App\services\SlugService;
 use App\services\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -33,7 +34,7 @@ class AdministrationController extends AbstractController
      * @Route("/trick/edit/{slug}/{id}", name="edit_detail_trick")
      * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
      */
-    public function index(Trick $trick, Request $request)
+    public function edit(Trick $trick, Request $request)
     {
 
         $assets = $trick->getAssets();
@@ -166,5 +167,30 @@ class AdministrationController extends AbstractController
             $this->upload->updateAssetService($asset, $file, $trick, $type, $name);
         }
         $this->addFlash('success', 'Update asset success');
+    }
+
+    /**
+     * @Route("/add/trick", name="add_trick")
+     */
+    public function add(Request $request, EntityManagerInterface $em)
+    {
+        $trick = new Trick();
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+        $slug = new SlugService();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setSlug($slug->addSlug($trick->getName()))
+                ->setCreateDate(new \DateTime());
+            $em->persist($trick);
+            $em->flush();
+            $this->addFlash('success', 'Create trick success');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('add_trick/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
