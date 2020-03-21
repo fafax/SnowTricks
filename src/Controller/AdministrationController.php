@@ -11,6 +11,7 @@ use App\services\SlugService;
 use App\services\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,7 @@ class AdministrationController extends AbstractController
     /**
      * @Route("/trick/edit/{slug}/{id}", name="edit_detail_trick")
      * @ParamConverter("trick" ,options={"mapping" :{"slug":"slug","id":"id"}})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Trick $trick, Request $request)
     {
@@ -74,6 +76,7 @@ class AdministrationController extends AbstractController
      * @Route("/trick/update/{id}/{asset}", name="update_asset")
      * @ParamConverter("trick" ,options={"mapping" :{"id":"id"}})
      * @ParamConverter("asset" , class="App\Entity\Asset")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function update(Trick $trick, Request $request, Asset $asset)
     {
@@ -95,6 +98,7 @@ class AdministrationController extends AbstractController
 
     /**
      * @Route("/trick/delete/asset/{id}", name="delete_asset", methods="DELETE" )
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAsset(Asset $asset, Request $request)
     {
@@ -112,6 +116,7 @@ class AdministrationController extends AbstractController
 
     /**
      * @Route("/trick/delete/{id}/", name="delete_trick" , methods="DELETE" )
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteTrick(Trick $trick, Request $request)
     {
